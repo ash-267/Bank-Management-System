@@ -173,7 +173,7 @@ public class Bank {
         Transaction t = new Transaction(type, amount, id, date);
         transactions.add(t);
         saveTransactionToFile(t);
-        saveAccountsToFile(); // update balance in file
+        saveAccountsToFile();
     }
 
     public void saveAccountsToFile() {
@@ -187,7 +187,7 @@ public class Bank {
     }
 
     private void saveTransactionToFile(Transaction t) {
-        try (FileWriter fw = new FileWriter(TRANSACTIONS_FILE, true)) { // append=true
+        try (FileWriter fw = new FileWriter(TRANSACTIONS_FILE, true)) { 
             fw.write(t.toCSV() + "\n");
         } catch (IOException e) {
             System.out.println("File Error (transactions): " + e.getMessage());
@@ -196,7 +196,7 @@ public class Bank {
 
     public void loadAccountsFromFile() {
         File file = new File(ACCOUNTS_FILE);
-        if (!file.exists()) return; // no file yet, skip
+        if (!file.exists()) return;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
