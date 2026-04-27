@@ -1,14 +1,15 @@
-// Child class: SavingsAccount — inherits from Account
-// Has a minimum balance rule
 public class SavingsAccount extends Account {
 
-    private static final double MIN_BALANCE = 500.0; // minimum balance rule
+    private static final double MIN_BALANCE = 500.0; 
 	
-    public SavingsAccount(String accountId, String holderName, double balance, int pin) {
-        super(accountId, holderName, balance, pin);
+    public SavingsAccount(String holderName, String type, double balance, int pin) {
+        super(holderName, type, balance, pin);
+    }
+    
+    public SavingsAccount(int ID, String holderName, String Type, double balance, int pin) {
+        super(ID, holderName, Type, balance, pin);
     }
 
-    // Override withdraw to enforce minimum balance rule
     @Override
     public synchronized void withdraw(double amount)
             throws InsufficientBalanceException, IllegalArgumentException {
@@ -23,7 +24,6 @@ public class SavingsAccount extends Account {
         System.out.println("Withdrawn Rs." + amount + " | New Balance: Rs." + balance);
     }
 
-    // Override display to show account type
     @Override
     public void displayDetails() {
         System.out.println("--- Savings Account ---");
@@ -31,9 +31,8 @@ public class SavingsAccount extends Account {
         System.out.println("Min Balance : Rs." + MIN_BALANCE);
     }
 
-    // Override toCSV to mark account type
     @Override
     public String toCSV() {
-        return accountId + "," + holderName + "," + balance + ",SAVINGS";
+        return accountId + "," + holderName + "," + balance + "," + accountPin + ",SAVINGS";
     }
 }
