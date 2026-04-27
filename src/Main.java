@@ -1,45 +1,12 @@
 import java.util.Scanner;
 // import java.io.Console;
 
-/*
- * ====================================================
- *  JAVA BANKING SYSTEM — Mini Project
- * ====================================================
- *  Concepts Demonstrated:
- *   1. Inheritance       — Account → SavingsAccount, CurrentAccount
- *   2. Multithreading    — synchronized deposit/withdraw via threads
- *   3. File Handling     — accounts.txt, transactions.txt
- *   4. Exception Handling— try-catch + InsufficientBalanceException
- *   5. Input Validation  — negative amounts, missing accounts
- * ====================================================
- *
- *  Sample Run (what you'll see):
- *  -----------------------------------------------
- *  === Banking System Menu ===
- *  1. Create Account
- *  2. Deposit
- *  3. Withdraw
- *  4. Transfer
- *  5. View Account
- *  6. View Transactions
- *  7. Exit
- *  Enter choice: 4
- *  From Account ID: ACC001
- *  To Account ID: ACC002
- *  Amount to Transfer: 500
- *  Thread-1: Withdrawing Rs.500 from ACC001...
- *  Thread-2: Depositing Rs.500 into ACC002...
- *  Transfer successful!
- *  -----------------------------------------------
- */
-
 public class Main {
 
     public static void main(String[] args) {
         Bank    bank    = new Bank();
         Scanner scanner = new Scanner(System.in);
 
-        // Load previously saved accounts from file
         bank.loadAccountsFromFile();
 
         boolean running = true;
@@ -48,7 +15,6 @@ public class Main {
             printMenu();
             System.out.print("Enter choice: ");
 
-            // Validate menu input
             int choice = 0;
             try {
                 choice = Integer.parseInt(scanner.nextLine().trim());
@@ -59,7 +25,7 @@ public class Main {
 
             switch (choice) {
 
-                // ---- Create Account ----
+                //Create Account
                 case 1: {
                     System.out.print("Account Type (SAVINGS/CURRENT): ");
                     String type = scanner.nextLine().trim().toUpperCase();
@@ -67,8 +33,6 @@ public class Main {
                         System.out.println("Invalid type. Use SAVINGS or CURRENT.\n");
                         break;
                     }
-                    System.out.print("Account ID: ");
-                    String id = scanner.nextLine().trim();
                     System.out.print("Holder Name: ");
                     String name = scanner.nextLine().trim();
                     System.out.print("Set an account pin: ");
@@ -86,14 +50,15 @@ public class Main {
                     	System.out.println("Balance cannot be negative.\n"); 
                     	break; 
                     }
-                    bank.createAccount(id, name, initBal, type, Pin);
+                    bank.createAccount(name, initBal, type, Pin);
                     System.out.println();
                     break;
                 }
-                // ---- Deposit ----
+                //Deposit
                 case 2: {
                     System.out.print("Account ID: ");
-                    String depId = scanner.nextLine().trim();
+                    int depId = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Pin: ");
                     int pin = scanner.nextInt();
                     scanner.nextLine();
@@ -103,10 +68,11 @@ public class Main {
                     System.out.println();
                     break;
             	}
-                // ---- Withdraw ----
+                //Withdraw
                 case 3: {
                     System.out.print("Account ID: ");
-                    String witId = scanner.nextLine().trim();
+                    int witId = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Pin: ");
                     int pin = scanner.nextInt();
                     scanner.nextLine();
@@ -116,22 +82,28 @@ public class Main {
                     System.out.println();
                     break;
                 }
-                // ---- Transfer ----
+                //Transfer
                 case 4: {
                     System.out.print("From Account ID: ");
-                    String fromId = scanner.nextLine().trim();
+                    int fromId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Pin of Sender account: ");
+                    int pin = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("To Account ID: ");
-                    String toId = scanner.nextLine().trim();
+                    int toId = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Amount to Transfer: ");
                     double transAmt = readDouble(scanner);
-                    bank.transfer(fromId, toId, transAmt);
+                    bank.transfer(fromId, toId, transAmt, pin);
                     System.out.println();
                     break;
                 }
-                // ---- View Account ----
+                //View Account
                 case 5: {
                     System.out.print("Account ID: ");
-                    String viewId = scanner.nextLine().trim();
+                    int viewId = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Pin: ");
                     int pin = scanner.nextInt();
                     scanner.nextLine();
@@ -139,10 +111,11 @@ public class Main {
                     System.out.println();
                     break;
                 }
-                // ---- View Transactions ----
+                //View Transactions
                 case 6: {
                     System.out.print("Account ID: ");
-                    String txnId = scanner.nextLine().trim();
+                    int txnId = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Pin: ");
                     int pin = scanner.nextInt();
                     scanner.nextLine();
@@ -150,7 +123,7 @@ public class Main {
                     System.out.println();
                     break;
             	}
-                // ---- Exit ----
+                //Exit
                 case 7: {
                     System.out.println("Thank you for using the Banking System. Goodbye!");
                     running = false;
@@ -165,9 +138,6 @@ public class Main {
         scanner.close();
     }
 
-    // -------------------------------------------------------
-    // Print the main menu
-    // -------------------------------------------------------
     private static void printMenu() {
         System.out.println("=== Banking System Menu ===");
         System.out.println("1. Create Account");
@@ -179,9 +149,6 @@ public class Main {
         System.out.println("7. Exit");
     }
 
-    // -------------------------------------------------------
-    // Safely read a double from input (basic validation)
-    // -------------------------------------------------------
     private static double readDouble(Scanner scanner) {
         try {
             return Double.parseDouble(scanner.nextLine().trim());
