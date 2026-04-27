@@ -23,7 +23,7 @@ A robust, console-based Java application designed to simulate modern banking ope
 * **Automated ID Generation**: Unique ID sequences for Savings (starting 1001) and Current (starting 2001) accounts that persist across sessions.
 * **Security**: All account operations (Deposit, Withdrawal, Transfer, View) are protected by a user-defined 4-digit PIN.
 * **Transaction History**: Real-time logging of all activities with timestamps, viewable per account.
-* **Data Persistence**: Automatic saving and loading of account states and transaction logs using CSV-based file handling.
+* **Data Persistence**: Automatic saving and loading of account states and transaction logs using a Text-based file handling.
 
 ## 🛠️ Technical Implementation
 
