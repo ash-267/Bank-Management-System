@@ -1,14 +1,15 @@
-// Child class: CurrentAccount — inherits from Account
-// Allows overdraft up to a limit
 public class CurrentAccount extends Account {
 
     private static final double OVERDRAFT_LIMIT = 2000.0;
 
-    public CurrentAccount(String accountId, String holderName, double balance, int pin) {
-        super(accountId, holderName, balance, pin);
+    public CurrentAccount(String holderName, String type, double balance, int pin) {
+        super(holderName, type, balance, pin);
+    }
+    
+    public CurrentAccount(int ID, String holderName, String Type, double balance, int pin) {
+        super(ID, holderName, Type, balance, pin);
     }
 
-    // Override withdraw to allow overdraft up to OVERDRAFT_LIMIT
     @Override
     public synchronized void withdraw(double amount)
             throws InsufficientBalanceException, IllegalArgumentException {
@@ -23,7 +24,6 @@ public class CurrentAccount extends Account {
         System.out.println("Withdrawn Rs." + amount + " | New Balance: Rs." + balance);
     }
 
-    // Override display to show account type
     @Override
     public void displayDetails() {
         System.out.println("--- Current Account ---");
@@ -31,9 +31,8 @@ public class CurrentAccount extends Account {
         System.out.println("Overdraft Limit: Rs." + OVERDRAFT_LIMIT);
     }
 
-    // Override toCSV to mark account type
     @Override
     public String toCSV() {
-        return accountId + "," + holderName + "," + balance + ",CURRENT";
+        return accountId + "," + holderName + "," + balance + "," + accountPin + ",CURRENT";
     }
 }
